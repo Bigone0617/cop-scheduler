@@ -11,9 +11,11 @@ import { GopaxService } from './services/gopax/gopax.service';
 import { ConfigModule } from 'src/config/config.module';
 import { OkxService } from './services/okx/okx.service';
 import { BybitService } from './services/bybit/bybit.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ExchangeService } from './exchange.service';
 
 @Module({
-  imports: [HttpModule, ConfigModule],
+  imports: [ScheduleModule.forRoot(), HttpModule, ConfigModule],
   providers: [
     BinanceService,
     CoinbaseService,
@@ -25,6 +27,7 @@ import { BybitService } from './services/bybit/bybit.service';
     ConfigModule,
     OkxService,
     BybitService,
+    ExchangeService,
   ],
   controllers: [ExchangeController],
 })

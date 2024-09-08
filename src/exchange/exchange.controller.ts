@@ -8,6 +8,8 @@ import { KorbitService } from './services/korbit/korbit.service';
 import { GopaxService } from './services/gopax/gopax.service';
 import { OkxService } from './services/okx/okx.service';
 import { BybitService } from './services/bybit/bybit.service';
+import { Cron } from '@nestjs/schedule';
+import { ExchangeService } from './exchange.service';
 
 @Controller('exchange')
 export class ExchangeController {
@@ -21,7 +23,13 @@ export class ExchangeController {
     private readonly gopaxService: GopaxService,
     private readonly okxService: OkxService,
     private readonly bybitService: BybitService,
+    private readonly exchangeService: ExchangeService,
   ) {}
+
+  @Cron('*/5 * * * * *')
+  handleCron() {
+    return this.exchangeService.getMarketCapTop10Price();
+  }
 
   @Get('binance')
   async getBinancePrices(@Query('symbols') symbols: string) {
